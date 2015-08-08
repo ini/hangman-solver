@@ -21,6 +21,7 @@ HangmanSolver::HangmanSolver() {
     {
         while (getline(myfile, word))
         {
+            word.erase(remove(word.begin(), word.end(), '\r'), word.end());
             dictionary.insert(word);
         }
         myfile.close();
@@ -32,11 +33,9 @@ void HangmanSolver::setWordLength(int length) {
     wordLength = length;
     wordChars = {};
     for (int i = 0; i < wordLength; i++) wordChars.push_back('_');
-    
+
     for (string word : dictionary) {
-        if (word.length() == wordLength) {
-            possibleWords.insert(word);
-        }
+        if (word.length() == wordLength) possibleWords.insert(word);
     }
     
 }
@@ -62,7 +61,6 @@ char HangmanSolver::guess() {
     map<char, int> distribution = letterCounts();
     int maxCharCount = 0;
     vector<char> maxChars = {0};
-    cout << maxChars[0];
     
     for (auto &stat : distribution) {
         if (stat.second == maxCharCount) {
@@ -113,19 +111,19 @@ void HangmanSolver::playGame() {
     // Clears any data from previous games
     previousGuesses = {};
     wrongGuesses = 0;
-    
     cout << "Pick any word." << endl;
     cout << "How many letters are in your word? ";
     int length;
     cin >> length;
     setWordLength(length);
+
     while (true) {
         printGame();
         char compGuess = guess();
         
         // Tests to see if the hangman game is over.
         if (compGuess == '\0') {
-            if (possibleWords.empty()) cout << "Sorry, I must not have your word in my dictionary." << endl;
+            if (possibleWords.size() != 1) cout << "Sorry, I must not have your word in my dictionary." << endl;
             else if (wrongGuesses == 1) cout << "I got your word with only 1 wrong guess!" << endl;
             else cout << "I got your word with " << wrongGuesses << " wrong guesses!" << endl;
             char response;
@@ -141,10 +139,9 @@ void HangmanSolver::playGame() {
         cout << "Is the letter '" << char(toupper(compGuess)) << "' in your word? [Y/N] ";
         char response;
         cin >> response;
-        
         if (toupper(response) == 'Y') {
             cin.clear();
-            cout << "Enter the positions where '" << char(toupper(compGuess)) << "' is in your word, separated by commas. ";
+            cout << "Enter " << char(toupper(compGuess)) << "'s position(s) in the word, separated by commas. ";
             string line;
             vector<int> positions;
             cin.ignore();

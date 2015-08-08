@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>A2C6123A-CF29-4D78-9C58-AC185A55D1F4</string>
+	<key>IDESourceControlProjectName</key>
+	<string>Hangman Solver</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>8B924406D07D4B5646751379EA066BAB48DD253F</key>
+		<string>https://github.com/ioguntol/Hangman-Solver.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>Hangman Solver.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>8B924406D07D4B5646751379EA066BAB48DD253F</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/ioguntol/Hangman-Solver.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>8B924406D07D4B5646751379EA066BAB48DD253F</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>8B924406D07D4B5646751379EA066BAB48DD253F</string>
+			<key>IDESourceControlWCCName</key>
+			<string>Hangman%20Solver</string>
+		</dict>
+	</array>
+</dict>
+</plist>

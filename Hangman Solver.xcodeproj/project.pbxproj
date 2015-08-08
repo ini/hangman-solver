@@ -28,7 +28,7 @@
 		898A6E7F1B76137200DF6A90 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		898A6E871B761ACC00DF6A90 /* HangmanSolver.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HangmanSolver.cpp; sourceTree = "<group>"; };
 		898A6E881B761ACC00DF6A90 /* HangmanSolver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HangmanSolver.h; sourceTree = "<group>"; };
-		898A6E8A1B762A1200DF6A90 /* wordlist.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = wordlist.txt; sourceTree = "<group>"; };
+		898A6E8D1B76930800DF6A90 /* wordlist.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = wordlist.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,7 +64,7 @@
 				898A6E881B761ACC00DF6A90 /* HangmanSolver.h */,
 				898A6E871B761ACC00DF6A90 /* HangmanSolver.cpp */,
 				898A6E7F1B76137200DF6A90 /* main.cpp */,
-				898A6E8A1B762A1200DF6A90 /* wordlist.txt */,
+				898A6E8D1B76930800DF6A90 /* wordlist.txt */,
 			);
 			path = "Hangman Solver";
 			sourceTree = "<group>";
@@ -243,6 +243,7 @@
 				898A6E851B76137200DF6A90 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
