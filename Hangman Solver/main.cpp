@@ -7,9 +7,13 @@
 //
 
 #include <iostream>
+#include "HangmanSolver.h"
 
-int main(int argc, const char * argv[]) {
-    // insert code here...
-    std::cout << "Hello, World!\n";
+using namespace std;
+
+int main () {
+    HangmanSolver hs;
+    hs.playGame();
     return 0;
 }
+
