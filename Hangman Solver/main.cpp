@@ -6,7 +6,6 @@
 //  Copyright (c) 2015 Insi Productions. All rights reserved.
 //
 
-#include <iostream>
 #include "HangmanSolver.h"
 
 using namespace std;
