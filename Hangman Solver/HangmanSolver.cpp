@@ -161,6 +161,9 @@ void HangmanSolver::playGame() {
 
 // Generates sequence of guesses in order for any hangman word
 vector<char> HangmanSolver::guesses(string word) {
+    if (!isWord(word)) {
+        cerr << "Error: " << word << " is not in this dictionary." << endl;
+    }
     vector<char> guessSequence;
     setWordLength(int(word.length()));
     previousGuesses = {};
@@ -176,4 +179,8 @@ vector<char> HangmanSolver::guesses(string word) {
         setGuessResult(compGuess, positions);
     }
     return guessSequence;
+}
+
+bool HangmanSolver::isWord(string word) {
+    return dictionary.count(word) != 0;
 }

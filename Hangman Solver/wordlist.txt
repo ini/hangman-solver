@@ -1,3 +1,4 @@
+a
 aa
 aah
 aahed
@@ -71837,6 +71838,7 @@ hysteroid
 hysterotomies
 hysterotomy
 hyte
+i
 iamb
 iambi
 iambic
@@ -100981,6 +100983,7 @@ nystagmus
 nystagmuses
 nystatin
 nystatins
+o
 oaf
 oafish
 oafishly

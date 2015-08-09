@@ -22,6 +22,7 @@ class HangmanSolver {
         HangmanSolver();
         void playGame();
         vector<char> guesses(string word);
+        bool isWord(string word);
     
     private:
         map<char, int> letterCounts();
