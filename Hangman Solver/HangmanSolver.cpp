@@ -37,7 +37,6 @@ void HangmanSolver::setWordLength(int length) {
     for (string word : dictionary) {
         if (word.length() == wordLength) possibleWords.insert(word);
     }
-    
 }
 
 // Returns a map of character counts for words in 'possibleWords'
@@ -80,7 +79,7 @@ char HangmanSolver::guess() {
     return maxChar;
 }
 
-// Inputs the letter to given positons and adjusts 'possibleWords' accordingly
+// Inputs the letter to given positions in 'wordChars' and adjusts 'possibleWords' accordingly
 void HangmanSolver::setGuessResult(char guessedChar, vector<int> positions) {
     set<string> tempPossibleWords;
     for (string item : possibleWords) tempPossibleWords.insert(item);
@@ -101,6 +100,7 @@ void HangmanSolver::setGuessResult(char guessedChar, vector<int> positions) {
     }
 }
 
+// Prints out the current state of the hangman game, with all letters and blank spaces
 void HangmanSolver::printGame() {
     for (char c : wordChars) cout << c << " ";
     cout << endl;
@@ -121,7 +121,7 @@ void HangmanSolver::playGame() {
         printGame();
         char compGuess = guess();
         
-        // Tests to see if the hangman game is over.
+        // Tests to see if the hangman game is over
         if (compGuess == '\0') {
             if (possibleWords.size() != 1) cout << "Sorry, I must not have your word in my dictionary." << endl;
             else if (wrongGuesses == 1) cout << "I got your word with only 1 wrong guess!" << endl;
@@ -159,8 +159,8 @@ void HangmanSolver::playGame() {
     }
 }
 
-// Generates sequence of guesses in order for any hangman word
-vector<char> HangmanSolver::guesses(string word) {
+// Generates sequence of best character guesses in order for any hangman word
+vector<char> HangmanSolver::getListOfGuesses(string word) {
     if (!isWord(word)) {
         cerr << "Error: " << word << " is not in this dictionary." << endl;
     }
@@ -181,6 +181,7 @@ vector<char> HangmanSolver::guesses(string word) {
     return guessSequence;
 }
 
+// Returns true if the word is in the dictionary, false otherwise.
 bool HangmanSolver::isWord(string word) {
     return dictionary.count(word) != 0;
 }

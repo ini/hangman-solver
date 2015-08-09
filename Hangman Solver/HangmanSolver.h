@@ -21,7 +21,7 @@ class HangmanSolver {
     public:
         HangmanSolver();
         void playGame();
-        vector<char> guesses(string word);
+        vector<char> getListOfGuesses(string word);
         bool isWord(string word);
     
     private:
