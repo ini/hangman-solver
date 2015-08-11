@@ -45,7 +45,7 @@ map<char, int> HangmanSolver::letterCounts() {
     for (string word : possibleWords) {
         set<char> wordChars;
         for (char& c : word) {
-            if (wordChars.count(c) == 0 && previousGuesses.count(c) == 0) {
+            if (previousGuesses.count(c) == 0) {
                 if (distribution.count(c) == 1) distribution[c] += 1;
                 else distribution[c] = 1;
                 break;
