@@ -48,7 +48,7 @@ map<char, int> HangmanSolver::letterCounts() {
             if (wordChars.count(c) == 0 && previousGuesses.count(c) == 0) {
                 if (distribution.count(c) == 1) distribution[c] += 1;
                 else distribution[c] = 1;
-            break;
+                break;
             }
             wordChars.insert(c);
         }
