@@ -123,9 +123,16 @@ void HangmanSolver::playGame() {
         
         // Tests to see if the hangman game is over
         if (compGuess == '\0') {
-            if (possibleWords.size() != 1) cout << "Sorry, I must not have your word in my dictionary." << endl;
-            else if (wrongGuesses == 1) cout << "I got your word with only 1 wrong guess!" << endl;
-            else cout << "I got your word with " << wrongGuesses << " wrong guesses!" << endl;
+            bool wordGuessed = true;
+            for (char c : wordChars) {
+                if (c == '_') {
+                    wordGuessed = false;
+                    cout << "Sorry, I must not have your word in my dictionary." << endl;
+                    break;
+                }
+            }
+            if (wordGuessed && wrongGuesses == 1) cout << "I got your word with only 1 wrong guess!" << endl;
+            else if (wordGuessed) cout << "I got your word with " << wrongGuesses << " wrong guesses!" << endl;
             char response;
             cout << "Would you like to start a new game? [Y/N] ";
             cin >> response;
