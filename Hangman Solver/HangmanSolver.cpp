@@ -43,14 +43,13 @@ void HangmanSolver::setWordLength(int length) {
 map<char, int> HangmanSolver::letterCounts() {
     map<char, int> distribution;
     for (string word : possibleWords) {
-        set<char> wordChars;
-        for (char& c : word) {
-            if (previousGuesses.count(c) == 0) {
+        set<char> prevChars;
+        for (char c : word) {
+            if (previousGuesses.count(c) == 0 && prevChars.count(c) == 0) {
                 if (distribution.count(c) == 1) distribution[c] += 1;
                 else distribution[c] = 1;
-                break;
+                prevChars.insert(c);
             }
-            wordChars.insert(c);
         }
     }
     return distribution;
