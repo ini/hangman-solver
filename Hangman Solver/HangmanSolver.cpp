@@ -80,21 +80,28 @@ char HangmanSolver::guess() {
 }
 
 // Inputs the letter to given positions in 'wordChars' and adjusts 'possibleWords' accordingly
-void HangmanSolver::setGuessResult(char guessedChar, vector<int> positions) {
+void HangmanSolver::setGuessResult(char guessedChar, set<int> positions) {
     set<string> tempPossibleWords;
     for (string item : possibleWords) tempPossibleWords.insert(item);
     
     if (positions.empty()) {
+        // Removes any words containing an incorrectly guessed letter
         wrongGuesses++;
         for (string word : tempPossibleWords) {
             if (word.find(guessedChar) != string::npos) possibleWords.erase(word);
         }
     }
     else {
-        for (int pos : positions) {
-            wordChars[pos - 1] = toupper(guessedChar);
-            for (string word : tempPossibleWords) {
-                if (word[pos - 1] != guessedChar) possibleWords.erase(word);
+        // Removes any words not containing the correctly guessed letter in the specified positions, or words containing the letter in any positions other than those specified
+        for (string word : tempPossibleWords) {
+            for (int i = 0; i < wordLength; i++) {
+                if (positions.count(i + 1) > 0) {
+                    wordChars[i] = toupper(guessedChar);
+                    if (word[i] != guessedChar) possibleWords.erase(word);
+                }
+                else {
+                    if (word[i] == guessedChar) possibleWords.erase(word);
+                }
             }
         }
     }
@@ -150,14 +157,14 @@ void HangmanSolver::playGame() {
             cin.clear();
             cout << "Enter " << char(toupper(compGuess)) << "'s position(s) in the word, separated by commas. ";
             string line;
-            vector<int> positions;
+            set<int> positions;
             cin.ignore();
             getline(std::cin, line);
             std::stringstream ss(line);
             int i;
             while (ss >> i)
             {
-                positions.push_back(i);
+                positions.insert(i);
                 if (ss.peek() == ',' || ss.peek() == ' ') ss.ignore();
             }
             setGuessResult(compGuess, positions);
@@ -179,9 +186,9 @@ vector<char> HangmanSolver::getListOfGuesses(string word) {
         char compGuess = guess();
         if (compGuess == '\0') break;
         guessSequence.push_back(compGuess);
-        vector<int> positions;
+        set<int> positions;
         for (int i = 0; i < word.length(); i++) {
-            if (word[i] == compGuess) positions.push_back(i + 1);
+            if (word[i] == compGuess) positions.insert(i + 1);
         }
         setGuessResult(compGuess, positions);
     }

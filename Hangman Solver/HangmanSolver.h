@@ -28,7 +28,7 @@ class HangmanSolver {
         map<char, int> letterCounts();
         void setWordLength(int length);
         char guess();
-        void setGuessResult(char guessedChar, vector<int> positions);
+        void setGuessResult(char guessedChar, set<int> positions);
         void printGame();
         
         int wordLength;
