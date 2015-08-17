@@ -13,18 +13,23 @@
 #include <stdlib.h>
 #include <time.h>
 
-// Puts words from wordlist.txt into set 'dictionary'
+
 HangmanSolver::HangmanSolver() {
+    // Puts words from wordlist.txt into set 'dictionary'
     string word;
-    ifstream myfile("wordlist.txt");
-    if (myfile.is_open())
+    ifstream word_list("wordlist.txt");
+    if (word_list.is_open())
     {
-        while (getline(myfile, word))
-        {
-            word.erase(remove(word.begin(), word.end(), '\r'), word.end());
-            dictionary.insert(word);
-        }
-        myfile.close();
+        while (getline(word_list, word)) dictionary.insert(word);
+        word_list.close();
+    }
+    
+    // Puts words from commonWords.txt into set 'commonWords'
+    ifstream common_words("commonWords.txt");
+    if (common_words.is_open())
+    {
+        while (getline(common_words, word)) commonWords.push_back(word);
+        common_words.close();
     }
 }
 
@@ -37,12 +42,16 @@ void HangmanSolver::setWordLength(int length) {
     for (string word : dictionary) {
         if (word.length() == wordLength) possibleWords.insert(word);
     }
+    
+    for (string word : commonWords) {
+        if (word.length() == wordLength) possibleCommonWords.insert(word);
+    }
 }
 
-// Returns a map of character counts for words in 'possibleWords'
-map<char, int> HangmanSolver::letterCounts() {
+// Returns a map of character counts for words in a set
+map<char, int> HangmanSolver::letterCounts(set<string> & wordSet) {
     map<char, int> distribution;
-    for (string word : possibleWords) {
+    for (string word : wordSet) {
         set<char> prevChars;
         for (char c : word) {
             if (previousGuesses.count(c) == 0 && prevChars.count(c) == 0) {
@@ -57,26 +66,65 @@ map<char, int> HangmanSolver::letterCounts() {
 
 // Returns the character to be guessed
 char HangmanSolver::guess() {
-    map<char, int> distribution = letterCounts();
-    int maxCharCount = 0;
-    vector<char> maxChars = {0};
+    // Finds the most frequently occuring character(s) in the set of any possible remaining words
+    map<char, int> distribution = letterCounts(possibleWords);
+    int bestCharCount = 0;
+    vector<char> bestChars;
     
     for (auto &stat : distribution) {
-        if (stat.second == maxCharCount) {
-            maxChars.push_back(stat.first);
-        }
-        else if (stat.second > maxCharCount) {
-            maxChars.clear();
-            maxChars = {stat.first};
-            maxCharCount = stat.second;
+        if (stat.second == bestCharCount) bestChars.push_back(stat.first);
+        else if (stat.second > bestCharCount) {
+            bestChars.clear();
+            bestChars = {stat.first};
+            bestCharCount = stat.second;
         }
     }
     
-    // Randomly picks between characters that are equally good choices
-    srand(int(time(NULL)));
-    char maxChar = maxChars[rand() % maxChars.size()];
-    previousGuesses.insert(maxChar);
-    return maxChar;
+    // Finds the most frequently occurring character in the set of possible common words among the best choices in 'bestChars'
+    map<char, int> commonWordsDistribution = letterCounts(possibleCommonWords);
+    int bestCommonCharCount = 0;
+    vector<char> bestCommonChars;
+    
+    for (char c : bestChars) {
+        if (commonWordsDistribution.count(c) == 1) {
+            if (commonWordsDistribution[c] == bestCommonCharCount) bestCommonChars.push_back(c);
+            else if (commonWordsDistribution[c] > bestCommonCharCount) {
+                bestCommonChars.clear();
+                bestCommonChars = {c};
+                bestCommonCharCount = commonWordsDistribution[c];
+            }
+        }
+    }
+    
+    char bestChar = '\0';
+    if (bestChars.empty()) return '\0';
+    if (bestCommonChars.empty()) {
+        // Randomly picks between characters that are equally good choices
+        srand(int(time(NULL)));
+        bestChar = bestChars[rand() % bestChars.size()];
+    }
+    else if (bestCommonChars.size() == 1) bestChar = bestCommonChars[0];
+    else {
+        // Chooses the character whose possible words have the lowest average index in 'commonWords'
+        double minAvg = commonWords.size() * commonWords.size();
+        for (char c : bestCommonChars) {
+            double sum = 0;
+            double count = 0;
+            for (string word : possibleCommonWords) {
+                if (word.find_first_of(c) != string::npos) {
+                    sum += find(commonWords.begin(), commonWords.end(), word) - commonWords.begin();
+                    count++;
+                }
+            }
+            if (sum / count < minAvg) {
+                minAvg = sum / count;
+                bestChar = c;
+            }
+        }
+    }
+    
+    previousGuesses.insert(bestChar);
+    return bestChar;
 }
 
 // Inputs the letter to given positions in 'wordChars' and adjusts 'possibleWords' accordingly
@@ -88,7 +136,10 @@ void HangmanSolver::setGuessResult(char guessedChar, set<int> positions) {
         // Removes any words containing an incorrectly guessed letter
         wrongGuesses++;
         for (string word : tempPossibleWords) {
-            if (word.find(guessedChar) != string::npos) possibleWords.erase(word);
+            if (word.find(guessedChar) != string::npos) {
+                possibleWords.erase(word);
+                possibleCommonWords.erase(word);
+            }
         }
     }
     else {
@@ -97,10 +148,16 @@ void HangmanSolver::setGuessResult(char guessedChar, set<int> positions) {
             for (int i = 0; i < wordLength; i++) {
                 if (positions.count(i + 1) > 0) {
                     wordChars[i] = toupper(guessedChar);
-                    if (word[i] != guessedChar) possibleWords.erase(word);
+                    if (word[i] != guessedChar) {
+                        possibleWords.erase(word);
+                        possibleCommonWords.erase(word);
+                    }
                 }
                 else {
-                    if (word[i] == guessedChar) possibleWords.erase(word);
+                    if (word[i] == guessedChar) {
+                        possibleWords.erase(word);
+                        possibleCommonWords.erase(word);
+                    }
                 }
             }
         }
@@ -126,10 +183,10 @@ void HangmanSolver::playGame() {
 
     while (true) {
         printGame();
-        char compGuess = guess();
+        char myGuess = guess();
         
         // Tests to see if the hangman game is over
-        if (compGuess == '\0') {
+        if (myGuess == '\0') {
             bool wordGuessed = true;
             for (char c : wordChars) {
                 if (c == '_') {
@@ -138,8 +195,29 @@ void HangmanSolver::playGame() {
                     break;
                 }
             }
-            if (wordGuessed && wrongGuesses == 1) cout << "I got your word with only 1 wrong guess!" << endl;
-            else if (wordGuessed) cout << "I got your word with " << wrongGuesses << " wrong guesses!" << endl;
+            
+            if (wordGuessed) {
+                string word;
+                for (char ch : wordChars) {
+                    word += tolower(ch);
+                }
+                
+                // Decreases the guessed word index 'commonWords' by 5000
+                if (find(commonWords.begin(), commonWords.end(), word) != commonWords.end()) {
+                    int index = (int) distance(commonWords.begin(), commonWords.erase(remove(commonWords.begin(), commonWords.end(), word), commonWords.end()));
+                    commonWords.erase(remove(commonWords.begin(), commonWords.end(), word), commonWords.end());
+                    commonWords.insert(commonWords.begin() + max(index, 5000) - 5000, word);
+                }
+                // Inserts the guessed word into middle of 'commonWords'
+                else commonWords.insert(commonWords.begin() + commonWords.size() / 2, word);
+                
+                ofstream common_words("commonWords.txt");
+                for (string w : commonWords) common_words << w << "\n";
+                
+                if (wrongGuesses == 1) cout << "I got your word with only 1 wrong guess!" << endl;
+                else cout << "I got your word with " << wrongGuesses << " wrong guesses!" << endl;
+            }
+            
             char response;
             cout << "Would you like to start a new game? [Y/N] ";
             cin >> response;
@@ -147,29 +225,40 @@ void HangmanSolver::playGame() {
                 cout << endl;
                 playGame();
             }
-            else break;
+            break;
         }
         
-        cout << "Is the letter '" << char(toupper(compGuess)) << "' in your word? [Y/N] ";
+        cout << "Is the letter '" << char(toupper(myGuess)) << "' in your word? [Y/N] ";
         char response;
         cin >> response;
         if (toupper(response) == 'Y') {
-            cin.clear();
-            cout << "Enter " << char(toupper(compGuess)) << "'s position(s) in the word, separated by commas. ";
-            string line;
-            set<int> positions;
-            cin.ignore();
-            getline(std::cin, line);
-            std::stringstream ss(line);
-            int i;
-            while (ss >> i)
-            {
-                positions.insert(i);
-                if (ss.peek() == ',' || ss.peek() == ' ') ss.ignore();
+            int unguessedChars = 0;
+            int indexOfChar = -1;
+            for (int i = 0; i < wordLength; i++) {
+                if (wordChars[i] == '_') {
+                    unguessedChars++;
+                    indexOfChar = i;
+                }
             }
-            setGuessResult(compGuess, positions);
+            if (unguessedChars == 1) setGuessResult(myGuess, {indexOfChar + 1});
+            else {
+                cin.clear();
+                cout << "Enter " << char(toupper(myGuess)) << "'s position(s) in your word: ";
+                string line;
+                set<int> positions;
+                cin.ignore();
+                getline(std::cin, line);
+                std::stringstream ss(line);
+                int i;
+                while (ss >> i)
+                {
+                    positions.insert(i);
+                    if (ss.peek() == ',' || ss.peek() == ' ') ss.ignore();
+                }
+                setGuessResult(myGuess, positions);
+            }
         }
-        else setGuessResult(compGuess, {});
+        else setGuessResult(myGuess, {});
     }
 }
 

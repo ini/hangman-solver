@@ -25,7 +25,7 @@ class HangmanSolver {
         bool isWord(string word);
     
     private:
-        map<char, int> letterCounts();
+        map<char, int> letterCounts(set<string>&);
         void setWordLength(int length);
         char guess();
         void setGuessResult(char guessedChar, set<int> positions);
@@ -34,7 +34,9 @@ class HangmanSolver {
         int wordLength;
         vector<char> wordChars;
         set<string> dictionary;
+        vector<string> commonWords;
         set<string> possibleWords;
+        set<string> possibleCommonWords;
         set<char> previousGuesses;
         int wrongGuesses;
 };
