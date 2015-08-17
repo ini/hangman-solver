@@ -1,4 +1,5 @@
 # The Strategy
+
 ### 1. Word Length:
 The AI starts with a list of all valid English words, then removes any words that aren't the right length. So if the game looked like this: _ _ _ , the program would remove words like "code", "um", and "histocompatibility", because none of them are three letters long.
 
