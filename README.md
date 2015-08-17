@@ -1,2 +1,4 @@
 # Hangman Solver
-It's just like it sounds: a hangman solver; instead of you guessing a word picked by the computer, the computer tries to guess a word picked by you. It uses statistical analysis of the most likely letters given the previous history of letters picked to make the best possible next guess.
+A Hangman game AI that allows a user to play against the computer by choosing a word and having the computer try to guess it in as few guesses as possible.
+
+[Read about the strategy the AI uses to guess letters here.](/strategy.md)
