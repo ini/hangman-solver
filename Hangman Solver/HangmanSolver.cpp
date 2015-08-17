@@ -202,11 +202,11 @@ void HangmanSolver::playGame() {
                     word += tolower(ch);
                 }
                 
-                // Decreases the guessed word index 'commonWords' by 5000
+                // Cuts the word's index in 'commonWords' in half
                 if (find(commonWords.begin(), commonWords.end(), word) != commonWords.end()) {
-                    int index = (int) distance(commonWords.begin(), commonWords.erase(remove(commonWords.begin(), commonWords.end(), word), commonWords.end()));
+                    int index = (int) distance(commonWords.begin(), find(commonWords.begin(), commonWords.end(), word));
                     commonWords.erase(remove(commonWords.begin(), commonWords.end(), word), commonWords.end());
-                    commonWords.insert(commonWords.begin() + max(index, 5000) - 5000, word);
+                    commonWords.insert(commonWords.begin() + index / 2, word);
                 }
                 // Inserts the guessed word into middle of 'commonWords'
                 else commonWords.insert(commonWords.begin() + commonWords.size() / 2, word);
@@ -226,6 +226,22 @@ void HangmanSolver::playGame() {
                 playGame();
             }
             break;
+        }
+        
+        if (possibleWords.size() == 1) {
+            string word;
+            for (string w : possibleWords) word = w;
+            cout << "Is your word '" << word << "'? [Y/N] ";
+            char response;
+            cin >> response;
+            possibleWords.clear();
+            possibleCommonWords.clear();
+            map<char, set<int>> positions;
+            for (int i = 0; i < wordLength; i++) {
+                previousGuesses.insert(word[i]);
+                if (toupper(response) != 'N') wordChars[i] = toupper(word[i]);
+            }
+            continue;
         }
         
         cout << "Is the letter '" << char(toupper(myGuess)) << "' in your word? [Y/N] ";
