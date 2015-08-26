@@ -177,8 +177,14 @@ void HangmanSolver::playGame() {
     wrongGuesses = 0;
     cout << "Pick any word." << endl;
     cout << "How many letters are in your word? ";
-    int length;
-    cin >> length;
+    int length = 0;
+    while (true) {
+        cin >> length;
+        if (length > 0) break;
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        std::cout << "Please enter a positive integer. ";
+    }
     setWordLength(length);
 
     while (true) {
@@ -211,6 +217,7 @@ void HangmanSolver::playGame() {
                 // Inserts the guessed word into middle of 'commonWords'
                 else commonWords.insert(commonWords.begin() + commonWords.size() / 2, word);
                 
+                // Rewrites 'commonWords.txt' with the updated array of words
                 ofstream common_words("commonWords.txt");
                 for (string w : commonWords) common_words << w << "\n";
                 
@@ -228,6 +235,7 @@ void HangmanSolver::playGame() {
             break;
         }
         
+        // Guesses the word if only one possible word remains
         if (possibleWords.size() == 1) {
             string word;
             for (string w : possibleWords) word = w;
@@ -248,6 +256,7 @@ void HangmanSolver::playGame() {
         char response;
         cin >> response;
         if (toupper(response) == 'Y') {
+            // Automatically fills in missing character if only one unguessed character is left
             int unguessedChars = 0;
             int indexOfChar = -1;
             for (int i = 0; i < wordLength; i++) {
@@ -258,6 +267,7 @@ void HangmanSolver::playGame() {
             }
             if (unguessedChars == 1) setGuessResult(myGuess, {indexOfChar + 1});
             else {
+                // Reads character positions from input
                 cin.clear();
                 cout << "Enter " << char(toupper(myGuess)) << "'s position(s) in your word: ";
                 string line;
@@ -269,7 +279,9 @@ void HangmanSolver::playGame() {
                 while (ss >> i)
                 {
                     positions.insert(i);
-                    if (ss.peek() == ',' || ss.peek() == ' ') ss.ignore();
+                    if (!isdigit(ss.peek())) {
+                        ss.ignore();
+                    }
                 }
                 setGuessResult(myGuess, positions);
             }
