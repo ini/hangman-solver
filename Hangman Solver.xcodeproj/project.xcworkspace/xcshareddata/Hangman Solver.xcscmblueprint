@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "8B924406D07D4B5646751379EA066BAB48DD253F",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "9C0D3D14AA351605DD8EA36F4B8DAF8F77FE030C" : 9223372036854775807,
+    "8B924406D07D4B5646751379EA066BAB48DD253F" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "A2C6123A-CF29-4D78-9C58-AC185A55D1F4",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "9C0D3D14AA351605DD8EA36F4B8DAF8F77FE030C" : "",
+    "8B924406D07D4B5646751379EA066BAB48DD253F" : "Hangman-Solver\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "Hangman Solver",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "Hangman Solver.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/ioguntol\/Hangman-Solver.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "8B924406D07D4B5646751379EA066BAB48DD253F"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/ioguntol\/slide",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "9C0D3D14AA351605DD8EA36F4B8DAF8F77FE030C"
+    }
+  ]
+}
