@@ -646,6 +646,7 @@ mad
 suppose
 quick
 wake
+build
 strange
 marry
 train
@@ -1295,7 +1296,6 @@ soldiers
 admit
 tight
 engine
-build
 treat
 sight
 closer
