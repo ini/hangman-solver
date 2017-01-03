@@ -44,7 +44,7 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       launchStyle = "0"
       useCustomWorkingDirectory = "YES"
-      customWorkingDirectory = "/Users/Ini/Dropbox (Personal)/CS Personal Projects/Xcode Projects/Hangman Solver/Hangman Solver"
+      customWorkingDirectory = "/Users/Ini/Dropbox (Personal)/CS Projects/Hangman-Solver/Hangman Solver"
       buildConfiguration = "Debug"
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
